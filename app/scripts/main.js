@@ -103,7 +103,51 @@ restartButtonElement.click(function() {
   showQuestions();
 });
 
+
+
+var Model = function() {
+  this.questionText = '';
+  this.answers = [];
+  this.correct = 0;
+
+  this.onChange = null;
+};
+
+Model.prototype.setQuestionText = function(value) {
+  this.questionText = value;
+  if (this.onChange) {
+    this.onChange(this.questionText);
+  }
+};
+
+Model.prototype.setAnswers = function(value) {
+  this.answers = value;
+  if(this.onChange) {
+    this.onChange(this.answers);
+  }
+};
+
+Model.prototype.setCorrectAnswer = function(value) {
+  this.correct = value;
+  if (this.onChange) {
+    this.onChange(this.correct);
+  }
+};
+
 $(document).ready(function() {
   questionsTotalElement.text(QUESTIONS.length);
   setQuestion(0);
+
+  var model = new Model();
+
+  QUESTIONS.forEach(function(question) {
+    model.setQuestionText(question.text);
+    model.setAnswers(question.answers);
+    model.setCorrectAnswer(question.correct);
+
+    console.log(model.questionText);
+    console.log(model.answers);
+    console.log(model.correct);
+  });
+
 });
